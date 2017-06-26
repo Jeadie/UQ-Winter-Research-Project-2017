@@ -1,7 +1,7 @@
 CELL_NUMBER = 5;
-CELL_TENSION_CONSTANT = 1 ; %tension constant in N/m^2
+CELL_TENSION_CONSTANT = 100 ; %tension constant in N/m^2
 INITIAL_CELL_EXTENSION = 10; % extension in m
-FRICTION_FORCE_CONSTANT = 50; 
+FRICTION_FORCE_CONSTANT = 10; 
 TOTAL_TIME = 5; 
 DELTA_TIME = 1; 
 
@@ -37,18 +37,17 @@ for i= 1:CELL_NUMBER
         Current_Cell_Position(i) = Current_Cell_Position(i-1)... 
                                     + INITIAL_CELL_EXTENSION; 
     end 
-end
+end 
 
-
-% Euler Method to increment over time to
+% Euler Method to increment over time to 
 for time = 1:DELTA_TIME: TOTAL_TIME
     % Change position of furtherest right Cell
     left_junction_extension = Current_Cell_Position(CELL_NUMBER)...
                         - Current_Cell_Position(CELL_NUMBER-1);
-    left_spring_force = Cell_Tension_Constants(CELL_NUMBER) * left_junction_extension;
+    left_spring_force = Cell_Tension_Constants(CELL_NUMBER) * left_junction_extension; 
     
     %Force from cell and cell tensions
-    Net_force = Cell_Force(CELL_NUMBER) - left_spring_force;
+    Net_force = Cell_Force(CELL_NUMBER) - left_spring_force; 
     
     %Displacement from Frictional forces: dx/dt = F
     % dx = F * dt
@@ -68,7 +67,7 @@ for time = 1:DELTA_TIME: TOTAL_TIME
 
     %Displacement from Frictional forces: dx/dt = F
     % dx = F * dt
-    dx = Net_force * DELTA_TIME;
+    dx = Net_force * DELTA_TIME; 
     New_Cell_Position(1)=Current_Cell_Position(1)+ dx;
    
     % -o-o-o-o-o
@@ -89,5 +88,6 @@ for time = 1:DELTA_TIME: TOTAL_TIME
         dx = Net_force * DELTA_TIME; 
         New_Cell_Position(i)=Current_Cell_Position(i)+ dx;  
     end 
-    Current_Cell_Position = New_Cell_Position
+    Current_Cell_Position = New_Cell_Position     
+
 end
