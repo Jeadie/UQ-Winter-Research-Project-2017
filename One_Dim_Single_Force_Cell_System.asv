@@ -4,7 +4,7 @@ classdef One_Dim_Single_Force_Cell_System
         no_of_cells;
         duration; 
         d_time = 0.5; 
-        position_time_matrix;
+        
     end 
     
     properties (GetAccess = 'private', SetAccess = 'private')
@@ -39,12 +39,8 @@ classdef One_Dim_Single_Force_Cell_System
         
         function run_simulation(obj)
         iteration_total = ceil(obj.duration/ obj.d_time);
-        obj.position_time_matrix = zeros(obj.no_of_cells, iteration_total); 
-        for i = 1:iteration_total
-            obj.run_single_iteration();
-            obj.store_position_time_matrix(); 
-        end 
-        graph_position_time_matrix(); 
+        position_time_matrix = zeros(obj.no_of_cells)
+        
         end 
         
     
