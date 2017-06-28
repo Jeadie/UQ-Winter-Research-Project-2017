@@ -53,20 +53,26 @@ classdef One_Dim_Single_Force_Cell_System
         end 
         
         function update_previous_pos(obj)
-            for cell = 1:obj.no_of_cells;
-               obj.cell_array(cell).update_previous_pos();
+            for cell_ind = 1:obj.no_of_cells;
+                cell = obj.cell_array(cell_ind);
+                cell.update_previous_pos();
             end 
         end 
         % -o-o-o-o
         function single_cell_iteration(obj, cell_ind)
-            cell = obj.cell_array(cell_ind);
+            obj.cell_array(cell_ind);
  
             right_junction_force= obj.right_junction_force(cell_ind);
             left_junction_force = obj.left_junction_force(cell_ind);
                      
-            Net_force = cell.internal_cell_force+ right_junction_force- left_junction_force;
+            Net_force = obj.cell_array(cell_ind).internal_cell_force+ right_junction_force- left_junction_force;
             dx = obj.d_time * Net_force;
-            cell.change_current_pos(dx);
+            obj.cell_array(cell_ind).previous_pos = obj.cell_array(cell_ind).current_pos;
+            obj.cell_array(cell_ind).current_pos = obj.cell_array(cell_ind).current_pos + dx;
+        end
+        function change_current_pos(obj, cell, dx)
+            cell.previous_pos = cell.current_pos;
+            cell.current_pos = (cell.current_pos + dx);  
         end 
         
         function force = right_junction_force(obj, cell_ind)
@@ -96,6 +102,7 @@ classdef One_Dim_Single_Force_Cell_System
             for cell = 1:obj.no_of_cells;
                 Current_Cell_Position(cell) = obj.cell_array(cell).current_pos;
             end 
+            Current_Cell_Position
             plot([1:obj.no_of_cells], Current_Cell_Position, '*');
             pause(0.01);
         end
@@ -105,4 +112,6 @@ classdef One_Dim_Single_Force_Cell_System
         end
     end
 end
+
+
 

@@ -1,11 +1,10 @@
 CELL_NUMBER = 5;
 CELL_TENSION_CONSTANT =  5; %tension constant in N/m^2
 INITIAL_CELL_EXTENSION = 10; % extension in m
-FORCE_CONSTANT = 1; 
+FORCE_CONSTANT = 8; 
 TOTAL_TIME = 5; 
 TOTAL_TIMESTEPS = 150; 
 DELTA_TIME = 0.1; 
-
 
 % Current and initial Cell Tension extension: Lc, Li
 % index 1 is Cell to the furthest left through to CELL_NUMBER
@@ -93,5 +92,6 @@ for tstep = 1:TOTAL_TIMESTEPS
         dx = Net_force * DELTA_TIME; 
         New_Cell_Position(i)=Current_Cell_Position(i)+ dx;  
     end 
+    a= New_Cell_Position - Current_Cell_Position
     Current_Cell_Position = New_Cell_Position;
 end
