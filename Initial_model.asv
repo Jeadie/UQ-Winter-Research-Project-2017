@@ -93,5 +93,7 @@ for tstep = 1:TOTAL_TIMESTEPS
         dx = Net_force * DELTA_TIME; 
         New_Cell_Position(i)=Current_Cell_Position(i)+ dx;  
     end 
+        z = New_Cell_Position - Current_Cell_Position
+
     Current_Cell_Position = New_Cell_Position;
 end

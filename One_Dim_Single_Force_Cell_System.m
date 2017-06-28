@@ -12,9 +12,9 @@ classdef One_Dim_Single_Force_Cell_System
     end
         
     properties (Constant) 
-        default_tension_constant = 1; 
-        default_initial_extension = 1;
-        default_frictional_cell_force = 0;
+        default_tension_constant = 10; 
+        default_initial_extension = 10;
+        default_internal_cell_force = 0;
         default_free_edge_cell_force = 1; 
     end 
     
@@ -29,7 +29,7 @@ classdef One_Dim_Single_Force_Cell_System
                 obj.cell_array(i) = Fixed_Force_Tension_Single_Cell(obj.default_tension_constant,...
                                                                     obj.default_initial_extension,...
                                                                     obj.default_initial_extension,...
-                                                                    obj.default_frictional_cell_force);
+                                                                    obj.default_internal_cell_force);
             end 
             % Set furtherest Right to have a fricitonal force as of default
             obj.cell_array(Cell_Number).set_frictional_force(obj.default_free_edge_cell_force); 
@@ -49,26 +49,54 @@ classdef One_Dim_Single_Force_Cell_System
             for cell = 1:obj.no_of_cells;
                obj.single_cell_iteration(cell)
             end 
-            
+            obj.update_current_previous_pos();
         end 
-        -o-o-o-o
-        function single_cell_iteration(obj, cell_pos)
-            cell = obj.cell_array(cell_pos);
-            left_junction_force = 0; 
-            right_spring_force= 0; 
-            left_junction_force = cell.current_junction_force();
-            if cell_pos ~= obj.no_of_cells
-                right_junction_force = obj.cell_array(cell_pos+1).current_junction_force();
-            end
-            
-            Net_force = cell.frictional_cell_force+ right_spring_force- left_spring_force; 
-            dx = obj.d_time * Net_force;
-            cell.change_current_extension(dx);
-            end 
         
+        function update_previous_pos(obj)
+            for cell = 1:obj.no_of_cells;
+               obj.cell_array(cell).update_previous_pos();
+            end 
         end 
+        % -o-o-o-o
+        function single_cell_iteration(obj, cell_ind)
+            cell = obj.cell_array(cell_ind);
+            right_junction_force= obj.right_junction_force(cell_ind);
+            left_junction_force = obj.left_junction_force(cell_ind);
+                     
+            Net_force = cell.internal_cell_force+ right_junction_force- left_junction_force; 
+            dx = obj.d_time * Net_force;
+            cell.change_current_pos(dx);    
+        end 
+        
+        function force = right_junction_force(obj, cell_ind)
+            if cell_ind ~= obj.no_of_cells;
+                cell_pos = obj.cell_array(cell_ind).previous_pos;
+                other_pos = obj.cell_array(cell_ind+1).previous_pos;
+                extension = (other_pos-cell_pos)-obj.default_initial_extension;
+                force =  obj.cell_array(cell_ind).tension_constant * extension;
+            else
+                force = 0;
+            end
+        end 
+        
+        function force = left_junction_force(obj, cell_ind)
+            cell_pos = obj.cell_array(cell_ind).previous_pos;
+            if cell_ind ==1
+                other_pos = 0;
+            else
+                other_pos = obj.cell_array(cell_ind-1).previous_pos;
+            end
+            extension = (other_pos-cell_pos)-obj.default_initial_extension;
+            force =  obj.cell_array(cell_ind).tension_constant * extension;
+        end
         
         function store_position_time_matrix(obj)
+            Current_Cell_Position = zeros(CELL_NUMBER,1); 
+            for cell = 1:obj.no_of_cells;
+                Current_Cell_Position(cell) = obj.cell_array(cell).current_pos;
+            end 
+            plot([1:obj.no_of_cells], Current_Cell_Position, '*');
+            pause(0.1);
         end
         
     

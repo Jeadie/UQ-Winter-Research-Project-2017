@@ -15,7 +15,8 @@ classdef Fixed_Force_Tension_Single_Cell
             tension_constant,... % >0
             current_pos,... % 
             previous_pos,...
-            internal_cell_force)
+            internal_cell_force...
+            )
             obj.tension_constant= tension_constant;
             obj.current_pos= current_pos;
             obj.previous_pos =previous_pos; 
@@ -40,6 +41,7 @@ classdef Fixed_Force_Tension_Single_Cell
         function update_previous_pos(obj)
         obj.previous_pos = obj.current_pos;
         end
+        
     end
 end 
 
