@@ -5,7 +5,6 @@ FORCE_CONSTANT = 8;
 TOTAL_TIME = 5; 
 TOTAL_TIMESTEPS = 150; 
 DELTA_TIME = 0.1; 
-
 % Current and initial Cell Tension extension: Lc, Li
 % index 1 is Cell to the furthest left through to CELL_NUMBER
 % who is the furtherest right. Each cell has its own extension to its left
@@ -37,7 +36,7 @@ for i= 1:CELL_NUMBER
                                     + INITIAL_CELL_EXTENSION; 
     end 
 end
-
+time_data=  Current_Cell_Position; 
 
 % Euler Method to increment over time to
 for tstep = 1:TOTAL_TIMESTEPS
@@ -94,4 +93,8 @@ for tstep = 1:TOTAL_TIMESTEPS
     end 
     a= New_Cell_Position - Current_Cell_Position
     Current_Cell_Position = New_Cell_Position;
+    time_data = horzcat(time_data,Current_Cell_Position );
 end
+x= [1:TOTAL_TIMESTEPS+1];
+b= time_data;
+plot(x, b(1,:),x,b(2,:),x,b(3,:),x,b(4,:), x, b(5,:));
