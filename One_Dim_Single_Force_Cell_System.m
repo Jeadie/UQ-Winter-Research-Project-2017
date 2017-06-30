@@ -4,30 +4,27 @@ classdef One_Dim_Single_Force_Cell_System < handle
     %  junctions as tensile, attractive forces with the leading right cell
     %  a right, positive force on the system. 
     
-    properties (GetAccess = 'public', SetAccess = 'private')
+    properties (GetAccess = 'public', SetAccess = 'public')
         no_of_cells;
         duration; 
         timesteps = 0.01; 
         position_time_data;
+        cell_array;
     end 
     
     properties (GetAccess = 'private', SetAccess = 'private')
-        cell_array; 
-    end
-        
-    properties (Constant) 
         default_tension_constant = 8; 
         default_initial_extension = 10;
         default_internal_cell_force = 0;
         default_free_edge_cell_force = 10; 
-    end 
-    
+    end
+            
     methods
         % Constructor
         function obj = One_Dim_Single_Force_Cell_System(Cell_Number,duration)
             obj.duration = duration; 
             obj.no_of_cells = Cell_Number;
-            obj.cell_array = Fixed_Force_Tension_Single_Cell.empty(0, 0); 
+            obj.cell_array = Fixed_Force_Tension_Cell.empty(0, 0); 
             for i = 1:Cell_Number;
                 % Create array of Fixed_Force_Tension_Single_Cell Objects
                 cell = Fixed_Force_Tension_Cell(obj.default_tension_constant,...
@@ -43,7 +40,7 @@ classdef One_Dim_Single_Force_Cell_System < handle
         % Run simulation for the System 
         function run_simulation(obj)
             iteration_total = ceil(obj.duration/ obj.timesteps);
-            obj.position_time_data = zeros(obj.no_of_cells, iteration_total); 
+            %obj.position_time_data = zeros(obj.no_of_cells, iteration_total); 
             for i = 1:iteration_total
                 obj.run_single_iteration();
                 obj.store_position_time_data(); 
@@ -117,6 +114,7 @@ classdef One_Dim_Single_Force_Cell_System < handle
             for cell = 1:obj.no_of_cells;
                 Current_Cell_Position(cell) = obj.cell_array(cell).current_pos;
             end
+            obj.position_time_data = horzcat(obj.position_time_data, Current_Cell_Position);
             plot([1:obj.no_of_cells], Current_Cell_Position, '*');
             pause(0.01);
         end

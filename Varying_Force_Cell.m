@@ -32,5 +32,9 @@ classdef Varying_Force_Cell < Fixed_Force_Tension_Cell
         function force = cell_force(obj)
             force = (obj.internal_cell_force * cos(obj.cell_dir));
         end
+        
+        function reset_dir(obj)
+            obj.cell_dir = 0; 
+        end
     end
 end

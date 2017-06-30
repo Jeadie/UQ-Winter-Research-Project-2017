@@ -17,15 +17,17 @@ classdef Fixed_Force_Tension_Cell<handle
     
     methods
             % Constructor
-        function obj = Fixed_Force_Tension_Single_Cell(tension_constant,...
+        function obj = Fixed_Force_Tension_Cell(tension_constant,...
             current_pos,... 
             previous_pos,...
             internal_cell_force)
-            obj.tension_constant= tension_constant;
-            obj.current_pos= current_pos;
-            obj.previous_pos =previous_pos; 
-            obj.internal_cell_force =internal_cell_force; 
-        end 
+            if(nargin ~= 0)
+                obj.tension_constant= tension_constant;
+                obj.current_pos= current_pos;
+                obj.previous_pos =previous_pos; 
+                obj.internal_cell_force =internal_cell_force; 
+            end
+        end
         % change the current_pos of the cell, not the previous pos so
         % that cells referencing this one in the same timestep take the
         % previous, start position
