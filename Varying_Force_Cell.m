@@ -21,7 +21,7 @@ classdef Varying_Force_Cell < Fixed_Force_Tension_Cell
         obj.previous_pos =previous_pos; 
         obj.internal_cell_force =internal_cell_force;
         
-        obj.cell_dir = rem(randn, (pi/2)); 
+        obj.cell_dir = rem(randn, pi); 
         end
                 
         % Change the cell direction by a max magnitude of delta_dir_magnitude

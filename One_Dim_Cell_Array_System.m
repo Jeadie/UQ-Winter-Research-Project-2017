@@ -43,6 +43,7 @@ classdef One_Dim_Cell_Array_System < handle
         position_time_data
     end
     
+    
     properties(Constant)
         % default physical values for the simulation
         default_tension_constant =5;
@@ -55,17 +56,21 @@ classdef One_Dim_Cell_Array_System < handle
         function obj = One_Dim_Pos_Force_System(no_of_cells,...
                                                 duration,...
                                                 time_steps)
-            obj.duration = duration; 
-            obj.timesteps = time_steps;                                
-            obj.no_of_cells = no_of_cells;
-                               
+            obj.array_set_up();
+            if nargin ~= 0                                   
+                obj.duration = duration; 
+                obj.timesteps = time_steps;                                
+                obj.no_of_cells = no_of_cells;
+            end 
+        end  
+        
+        function array_set_up(obj)
             obj.rest_junction_ext = obj.default_rest_ext;                            
             obj.Current_Cell_Pos = obj.initial_cell_positions(obj.rest_junction_ext);
             obj.Previous_Cell_Pos = obj.Current_Cell_Pos; 
             obj.Cell_Tension_Constant = obj.default_tension_constant;
-            obj.Cell_Force = obj.set_internal_cell_force();
+            obj.Cell_Force = obj.set_internal_cell_force();   
         end
-        
         
         % Sets the cell force vector for the simulation
         % In this model on the last cell has a force, default_free_end_force
@@ -99,11 +104,20 @@ classdef One_Dim_Cell_Array_System < handle
             for cell_ind = 1:obj.no_of_cells
                 obj.update_cell(cell_ind);
             end 
-            change_in_x= obj.Current_Cell_Pos- obj.Previous_Cell_Pos
-            plot([1:obj.no_of_cells], obj.Current_Cell_Pos, '*');
-            pause(.1);  
-            obj.Previous_Cell_Pos = obj.Current_Cell_Pos;
+            obj.plot_run_time_graph();
+            obj.finish_iteration();
             obj.position_time_data = horzcat(obj.position_time_data, obj.Current_Cell_Pos);
+        end
+        
+        % After each iteration, update the previous position vector.  
+        function finish_iteration (obj)
+            obj.Previous_Cell_Pos = obj.Current_Cell_Pos;
+        end 
+        
+        % Update the run time graph after each iteration
+        function plot_run_time_graph(obj)
+            plot([1:obj.no_of_cells], obj.Current_Cell_Pos, '*');
+            pause(.3); 
         end
         
         % Updates the position of an individual cell given its internal
@@ -112,11 +126,15 @@ classdef One_Dim_Cell_Array_System < handle
             right_junction_force= obj.right_junction_force(cell_ind);
             left_junction_force = obj.left_junction_force(cell_ind);
             
-            Net_force = obj.Cell_Force(cell_ind)+ right_junction_force- left_junction_force;
+            Net_force = obj.internal_cell_force(cell_ind)+ right_junction_force- left_junction_force;
             dx = obj.timesteps * Net_force;
             obj.Current_Cell_Pos(cell_ind) = obj.Current_Cell_Pos(cell_ind) +dx;
         end
-        
+
+        function force = internal_cell_force(obj, cell_ind)
+            force  = obj.Cell_Force(cell_ind);
+        end
+
         % Returns the force experienced by the right junction of a cell at
         % cell_ind in the position vector
         function force = right_junction_force(obj, cell_ind)
