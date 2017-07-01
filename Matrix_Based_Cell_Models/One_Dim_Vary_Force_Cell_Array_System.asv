@@ -49,10 +49,25 @@ classdef One_Dim_Vary_Force_Cell_Array_System < One_Dim_Cell_Array_System
         
         function alter_dirn_vector(obj)
             for i = 1:obj.no_of_cells-1
-                obj.dirn_vector(i) =obj.dirn_vector(i)
+                obj.dirn_vector(i) =obj.dirn_vector(i)...
                                     +obj.delta_dir_magnitude*(rem(randn, 1));  
             end 
         end 
+        
+        function plot_run_time_graph(obj)
+            Fx = obj.Cell_Force.*cos(obj.dirn_vector);
+            Fy = obj.Cell_Force.*sin(obj.dirn_vector);
+            subplot(2,1,1)
+            a = quiver(obj.Current_Cell_Pos, ones(obj.no_of_cells,1), Fx, Fy);
+            
+            subplot(2,1,2)
+            plot([1:obj.no_of_cells], obj
+            
+            pause(.3); 
+            
+            
+
+        end
     end
 end
 

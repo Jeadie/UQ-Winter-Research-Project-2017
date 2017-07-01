@@ -95,6 +95,8 @@ classdef One_Dim_Cell_Array_System < handle
             iterations = obj.duration/obj.timesteps;
             for iter =1:iterations
                 obj.run_iteration();
+                obj.plot_run_time_graph(iter*obj.timesteps);
+
             end
         end
         
@@ -104,7 +106,6 @@ classdef One_Dim_Cell_Array_System < handle
             for cell_ind = 1:obj.no_of_cells
                 obj.update_cell(cell_ind);
             end 
-            obj.plot_run_time_graph();
             obj.finish_iteration();
             obj.position_time_data = horzcat(obj.position_time_data, obj.Current_Cell_Pos);
         end
