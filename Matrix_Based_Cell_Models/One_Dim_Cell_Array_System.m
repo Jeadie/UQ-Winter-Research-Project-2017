@@ -31,6 +31,9 @@ classdef One_Dim_Cell_Array_System < handle
     % position_time_data gives a final matrix of Current_Cell_Pos column
     % vectors at each timestep 
     
+    % graphs_enabled is a logical to whether the run-time graphs are
+    % enabled. A logical one indicates tun-time graphs will be enabled. 
+    
     properties (GetAccess = 'public', SetAccess = 'public')
         Current_Cell_Pos
         Previous_Cell_Pos
@@ -41,10 +44,10 @@ classdef One_Dim_Cell_Array_System < handle
         timesteps
         duration
         position_time_data
+        graphs_enabled = 1
     end
     
-    
-    properties(Constant)
+    properties(Access = 'private')
         % default physical values for the simulation
         default_tension_constant =5;
         default_rest_ext = 10; 
@@ -117,8 +120,10 @@ classdef One_Dim_Cell_Array_System < handle
         
         % Update the run time graph after each iteration
         function plot_run_time_graph(obj)
-            plot([1:obj.no_of_cells], obj.Current_Cell_Pos, '*');
-            pause(.3); 
+            if obj.graphs_enabled
+                plot([1:obj.no_of_cells], obj.Current_Cell_Pos, '*');
+                pause(.3); 
+            end
         end
         
         % Updates the position of an individual cell given its internal
@@ -160,6 +165,60 @@ classdef One_Dim_Cell_Array_System < handle
             end
             extension = (cell_pos-other_pos)-obj.rest_junction_ext;
             force =  obj.Cell_Tension_Constant * extension;
+        end
+        
+        %  Resets all the position data to initial
+        function reset_system(obj)
+            obj.array_set_up();
+            obj.position_time_data = [];
+        end
+        
+        %  Change the default tension constants
+        function change_tension_constant(obj, constant)
+            obj.default_tension_constant = constant; 
+        end 
+        
+        %  Change the default junction extension between cells such that
+        %  there is no compressive/repulsive forces present. 
+        function change_junction_extension(obj, extension)
+            obj.default_rest_ext = extension;
+        end
+        
+        %  Change the magnitude of the free end force parallel to the 1
+        %  Dimension
+        function change_internal_cell_force(obj, force)
+            obj.default_free_end_force =force;
+        end
+        
+        
+        %  Change the number of the cells to be run in the simulation.
+        %  Requires that obj.run_simulation() has not been run since
+        %  instantiating or running obj.reset_system()
+        function change_cell_number(obj, cell_number)
+            obj.no_of_cells = cell_number;
+            obj.reset_system();
+        end
+        
+        %  Alter the Timesteps of the system. Requires that 
+        %  obj.run_simulation() has not been run since instantiating or 
+        %  running obj.reset_system()
+        function change_timesteps(obj, timesteps)
+            obj.timesteps = timesteps;
+        end
+        
+        
+        %  Change the duration of the simulation. Requires that 
+        %  obj.run_simulation() has not been run since instantiating or 
+        %  running obj.reset_system()
+        function change_duration(obj, duration)
+            obj.duration = duration;
+        end 
+        
+        
+        %  Change whether system will display run-time graphs. A logical
+        %  one will enable the graphs, and a 0 will disable them. 
+        function change_graph_mode(obj, mode)
+            obj.graphs_enabled = mode; 
         end
     end
 end
