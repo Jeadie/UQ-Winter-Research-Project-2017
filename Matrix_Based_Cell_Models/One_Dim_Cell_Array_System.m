@@ -45,32 +45,29 @@ classdef One_Dim_Cell_Array_System < handle
         duration
         position_time_data
         graphs_enabled = 1
-    end
-    
-    properties(Access = 'private')
-        % default physical values for the simulation
         default_tension_constant =5;
         default_rest_ext = 10; 
         default_free_end_force =8;
-    end 
+    end
     
     methods
         % constuctor
-        function obj = One_Dim_Pos_Force_System(no_of_cells,...
+        function obj = One_Dim_Cell_Array_System(no_of_cells,...
                                                 duration,...
                                                 time_steps)
-            obj.array_set_up();
             if nargin ~= 0                                   
                 obj.duration = duration; 
                 obj.timesteps = time_steps;                                
                 obj.no_of_cells = no_of_cells;
             end 
+            obj.array_set_up();
+
         end  
         
         function array_set_up(obj)
             obj.rest_junction_ext = obj.default_rest_ext;                            
             obj.Current_Cell_Pos = obj.initial_cell_positions(obj.rest_junction_ext);
-            obj.Previous_Cell_Pos = obj.Current_Cell_Pos; 
+            obj.Previous_Cell_Pos = obj.Current_Cell_Pos;
             obj.Cell_Tension_Constant = obj.default_tension_constant;
             obj.Cell_Force = obj.set_internal_cell_force();   
         end
@@ -188,6 +185,7 @@ classdef One_Dim_Cell_Array_System < handle
         %  Dimension
         function change_internal_cell_force(obj, force)
             obj.default_free_end_force =force;
+            obj.Cell_Force  = obj.set_internal_cell_force();
         end
         
         
@@ -220,5 +218,24 @@ classdef One_Dim_Cell_Array_System < handle
         function change_graph_mode(obj, mode)
             obj.graphs_enabled = mode; 
         end
+        
+        
+        %  Returns a matrix of simulation data for the number of cells
+        %  specified. These cells are counted from right to left. i.e. the
+        %  closest no_of_cells cells to and including the fartherest right
+        %  cell
+        function model_data = get_simulation_data(obj, no_of_cells)
+            end_ind = obj.no_of_cells ;
+            if nargin == 0 
+                start_ind = 1;
+            else
+                % If a cell no is specified, select from right to left
+                start_ind = (end_ind +1 )-no_of_cells;
+            end 
+            % Index all rows from fartherest right cell data to the
+            % specifie
+            model_data = obj.position_time_data([start_ind:end_ind],:); 
+                
+        end 
     end
 end

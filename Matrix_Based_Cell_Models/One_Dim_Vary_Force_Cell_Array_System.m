@@ -2,26 +2,20 @@ classdef One_Dim_Vary_Force_Cell_Array_System < One_Dim_Cell_Array_System
 
     properties(Access = 'public')
         dirn_vector
-    end
-    
-    properties(Access = 'private')
-        % default physical values for the simulation
-        default_tension_constant =5;
-        default_rest_ext = 10; 
-        default_free_end_force =8;
         delta_dir_magnitude = 0.35;
-
-    end 
+    end
     
     methods
         
         function obj = One_Dim_Vary_Force_Cell_Array_System(no_of_cells,...
                                                             duration,...
                                                             time_steps)
-            obj.duration = duration; 
-            obj.timesteps = time_steps;                                
-            obj.no_of_cells = no_of_cells;
-            obj.array_set_up();
+            if nargin ~= 0                                            
+                obj.duration = duration; 
+                obj.timesteps = time_steps;                                
+                obj.no_of_cells = no_of_cells;
+                obj.array_set_up();
+            end 
         end
         
         %  Set all cells to have internal cell forces equal magnitude to the
@@ -65,25 +59,22 @@ classdef One_Dim_Vary_Force_Cell_Array_System < One_Dim_Cell_Array_System
         %   1. a quiver of the cell position and force vector 
         %   2. a position- time graph of each cell
         function plot_run_time_graph(obj)
-            Fx = obj.Cell_Force.*cos(obj.dirn_vector);
-            Fy = obj.Cell_Force.*sin(obj.dirn_vector);
-            subplot(1,2,1)
-            a = quiver(obj.Current_Cell_Pos, ones(obj.no_of_cells,1), Fx, Fy);
-            
-            subplot(1,2,2)
-            plot(obj.position_time_data');
-            
-            pause(.1); 
+            if obj.graphs_enabled
+                Fx = obj.Cell_Force.*cos(obj.dirn_vector);
+                Fy = obj.Cell_Force.*sin(obj.dirn_vector);
+                subplot(1,2,1)
+                a = quiver(obj.Current_Cell_Pos, ones(obj.no_of_cells,1), Fx, Fy);
+
+                subplot(1,2,2)
+                plot(obj.position_time_data');
+
+                pause(.1); 
+            end 
         end
         
         %  Reset the direction vector to uniformly random. 
         function reset_direction_vector(obj)
             obj.dirn_vector = obj.set_up_dirn_vector();
-        end
-        
-        %  Change the direction vector change magnitude. 
-        function change_d_direction_mag(obj, d_dir)
-            obj.delta_dir_magnitude = d_dir;
         end
     end
 end
