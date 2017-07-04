@@ -33,13 +33,13 @@ classdef One_Dim_FeedBack_Cell_Array_System < One_Dim_Vary_Force_Cell_Array_Syst
         
         % 1< ind < obj.no_of_cells-1
         function angle = get_feedback_angle(obj, ind)
-                left_pos = obj.Previous_Cell_Pos(cell_ind-1);
-                cell_pos = obj.Previous_Cell_Pos(cell_ind);
-                right_pos = obj.Previous_Cell_Pos(cell_ind+1);
+                left_pos = obj.Previous_Cell_Pos(ind-1);
+                cell_pos = obj.Previous_Cell_Pos(ind);
+                right_pos = obj.Previous_Cell_Pos(ind+1);
                 cur_angle = obj.dirn_vector(ind);
-                feedback_factor = (((right_pos - left_pos)/2) -cell_pos)...
-                                    /(2*obj.default_rest_ext) ;
-                if cur_angle > pi
+                feedback_factor = (((right_pos + left_pos)/2) -cell_pos)...
+                                    /(obj.default_rest_ext)
+                if cur_angle < pi
                     feedback_factor = -1* feedback_factor;
                 end
                 angle = obj.Feedback_Constant * feedback_factor;
