@@ -119,7 +119,7 @@ classdef One_Dim_Cell_Array_System < handle
         function plot_run_time_graph(obj)
             if obj.graphs_enabled
                 plot([1:obj.no_of_cells], obj.Current_Cell_Pos, '*');
-                pause(.3); 
+                pause(.05); 
             end
         end
         

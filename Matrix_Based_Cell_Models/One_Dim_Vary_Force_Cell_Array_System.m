@@ -68,7 +68,7 @@ classdef One_Dim_Vary_Force_Cell_Array_System < One_Dim_Cell_Array_System
                 subplot(1,2,2)
                 plot(obj.position_time_data');
 
-                pause(.1); 
+                pause(.05); 
             end 
         end
         

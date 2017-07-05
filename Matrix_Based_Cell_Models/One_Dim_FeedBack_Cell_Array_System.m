@@ -24,7 +24,7 @@ classdef One_Dim_FeedBack_Cell_Array_System < One_Dim_Vary_Force_Cell_Array_Syst
             Feedback_delta = zeros(obj.no_of_cells, 1);
             %  Iterate through all Cells and get their feedback directions
             %  from (1,0,-1)
-            for ind = 2:obj.no_of_cells-1
+            for ind = 1:obj.no_of_cells-1
                 Feedback_delta(ind) = obj.get_feedback_angle(ind); 
             end 
             
@@ -33,16 +33,20 @@ classdef One_Dim_FeedBack_Cell_Array_System < One_Dim_Vary_Force_Cell_Array_Syst
         
         % 1< ind < obj.no_of_cells-1
         function angle = get_feedback_angle(obj, ind)
+            if ind~= 1    
                 left_pos = obj.Previous_Cell_Pos(ind-1);
+            else
+                left_pos = 0;
+            end
                 cell_pos = obj.Previous_Cell_Pos(ind);
                 right_pos = obj.Previous_Cell_Pos(ind+1);
                 cur_angle = obj.dirn_vector(ind);
                 feedback_factor = (((right_pos + left_pos)/2) -cell_pos)...
-                                    /(obj.default_rest_ext)
+                                    /(obj.default_rest_ext);
                 if cur_angle < pi
                     feedback_factor = -1* feedback_factor;
                 end
-                angle = obj.Feedback_Constant * feedback_factor;
+                angle = obj.Feedback_Constant * feedback_factor
         end 
     end
 end
