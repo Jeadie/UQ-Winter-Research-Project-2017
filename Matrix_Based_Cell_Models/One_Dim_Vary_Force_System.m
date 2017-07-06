@@ -1,4 +1,4 @@
-classdef One_Dim_Vary_Force_Cell_Array_System < One_Dim_Cell_Array_System
+classdef One_Dim_Vary_Force_System < One_Dim_Base_System
 
     properties(Access = 'public')
         dirn_vector
@@ -7,7 +7,7 @@ classdef One_Dim_Vary_Force_Cell_Array_System < One_Dim_Cell_Array_System
     
     methods
         
-        function obj = One_Dim_Vary_Force_Cell_Array_System(no_of_cells,...
+        function obj = One_Dim_Vary_Force_System(no_of_cells,...
                                                             duration,...
                                                             time_steps)
             if nargin ~= 0                                            

@@ -1,4 +1,4 @@
-classdef One_Dim_FeedBack_Cell_Array_System < One_Dim_Vary_Force_Cell_Array_System
+classdef One_Dim_Position_Feedback_System < One_Dim_Vary_Force_System
     %UNTITLED2 Summary of this class goes here
     %   Detailed explanation goes here
     
@@ -8,7 +8,7 @@ classdef One_Dim_FeedBack_Cell_Array_System < One_Dim_Vary_Force_Cell_Array_Syst
     
     methods
         
-        function obj = One_Dim_FeedBack_Cell_Array_System(no_of_cells,...
+        function obj = One_Dim_Position_Feedback_System(no_of_cells,...
                                                             duration,...
                                                             time_steps)
             obj.duration = duration; 
@@ -46,7 +46,7 @@ classdef One_Dim_FeedBack_Cell_Array_System < One_Dim_Vary_Force_Cell_Array_Syst
                 if cur_angle < pi
                     feedback_factor = -1* feedback_factor;
                 end
-                angle = obj.Feedback_Constant * feedback_factor
+                angle = obj.Feedback_Constant * feedback_factor;
         end 
     end
 end

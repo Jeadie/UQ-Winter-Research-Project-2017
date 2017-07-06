@@ -1,4 +1,4 @@
-classdef One_Dim_Cell_Array_System < handle
+classdef One_Dim_Base_System < handle
     %UNTITLED8 Summary of this class goes here
     % Class is a Complete 1D Cell System
     % Furtherest Right cell has a positive free migrative force
@@ -52,7 +52,7 @@ classdef One_Dim_Cell_Array_System < handle
     
     methods
         % constuctor
-        function obj = One_Dim_Cell_Array_System(no_of_cells,...
+        function obj = One_Dim_Base_System(no_of_cells,...
                                                 duration,...
                                                 time_steps)
             if nargin ~= 0                                   
