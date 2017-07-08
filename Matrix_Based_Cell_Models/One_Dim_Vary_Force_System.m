@@ -2,7 +2,7 @@ classdef One_Dim_Vary_Force_System < One_Dim_Base_System
 
     properties(Access = 'public')
         dirn_vector
-        delta_dir_magnitude = 0.35;
+        delta_dir_magnitude = 3.5;
     end
     
     methods
@@ -49,11 +49,13 @@ classdef One_Dim_Vary_Force_System < One_Dim_Base_System
         %  distributed value of std deviation of  1/3 obj.delta_dir_magnitude
         %  i.e. 3 deviations is at the delta_dir_magnitude
         function alter_dirn_vector(obj)
-            delta_dirn = (obj.delta_dir_magnitude/3)*randn(obj.no_of_cells, 1); 
-            delta_dirn(obj.no_of_cells) = 0; 
-            
-            obj.dirn_vector = rem((obj.dirn_vector + delta_dirn),(2*pi));
+            obj.dirn_vector = rem((obj.dirn_vector + obj.angle_variance_vector()),(2*pi));
         end 
+        
+        function delta_dirn = angle_variance_vector(obj)
+            delta_dirn = (obj.delta_dir_magnitude* obj.timesteps/3)*randn(obj.no_of_cells, 1); 
+            delta_dirn(obj.no_of_cells) = 0; 
+        end
        
         %  Plot the run time graph of the following: 
         %   1. a quiver of the cell position and force vector 

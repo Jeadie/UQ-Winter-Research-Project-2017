@@ -3,7 +3,7 @@ classdef One_Dim_Position_Feedback_System < One_Dim_Vary_Force_System
     %   Detailed explanation goes here
     
     properties(Access = 'public')
-        Feedback_Constant = 0.1
+        Feedback_Constant = 8
     end
     
     methods
@@ -11,24 +11,24 @@ classdef One_Dim_Position_Feedback_System < One_Dim_Vary_Force_System
         function obj = One_Dim_Position_Feedback_System(no_of_cells,...
                                                             duration,...
                                                             time_steps)
-            obj.duration = duration; 
-            obj.timesteps = time_steps;                                
-            obj.no_of_cells = no_of_cells;
-            obj.array_set_up();
+            if nargin ~= 0                                            
+                obj.duration = duration; 
+                obj.timesteps = time_steps;                                
+                obj.no_of_cells = no_of_cells;
+                obj.array_set_up();
+            end 
         end
         
         function alter_dirn_vector(obj)
-            delta_dirn = (obj.delta_dir_magnitude/3)*randn(obj.no_of_cells, 1); 
-            delta_dirn(obj.no_of_cells) = 0; 
-            
+
             Feedback_delta = zeros(obj.no_of_cells, 1);
             %  Iterate through all Cells and get their feedback directions
             %  from (1,0,-1)
             for ind = 1:obj.no_of_cells-1
-                Feedback_delta(ind) = obj.get_feedback_angle(ind); 
+                Feedback_delta(ind) = obj.get_feedback_angle(ind);
             end 
             
-            obj.dirn_vector = rem((obj.dirn_vector + delta_dirn + Feedback_delta),(2*pi));
+            obj.dirn_vector = rem((obj.dirn_vector + obj.angle_variance_vector() + Feedback_delta),(2*pi));
         end 
         
         % 1< ind < obj.no_of_cells-1
@@ -46,7 +46,7 @@ classdef One_Dim_Position_Feedback_System < One_Dim_Vary_Force_System
                 if cur_angle < pi
                     feedback_factor = -1* feedback_factor;
                 end
-                angle = obj.Feedback_Constant * feedback_factor;
+                angle = obj.Feedback_Constant *obj.timesteps* feedback_factor;
         end 
     end
 end
