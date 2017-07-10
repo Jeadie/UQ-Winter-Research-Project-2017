@@ -67,18 +67,19 @@ classdef Two_Dim_Base_System< handle
             for iter =1:iterations
                 obj.run_iteration();
                 obj.plot_run_time_graph();
-
             end
         end
         
         % runs a single timestep iteration, updates the position vectors,
         % changes the run-time graph and adds to the final matrix
         function obj = run_iteration(obj)
-            for cell_ind = 1:obj.no_of_cells
-                obj.update_cell(cell_ind);
+            for x = 1:obj.width
+                for y = 1:obj.height
+                    obj.update_cell(x,y);
+                end 
             end 
             obj.finish_iteration();
-            obj.position_time_data = horzcat(obj.position_time_data, obj.Current_Cell_Pos);
+            obj.position_time_data = cat(3, obj.position_time_data, obj.Current_Cell_Pos);
         end
         
         % After each iteration, update the previous position vector.  
@@ -89,32 +90,37 @@ classdef Two_Dim_Base_System< handle
         % Update the run time graph after each iteration
         function plot_run_time_graph(obj)
             if obj.graphs_enabled
-                plot([1:obj.no_of_cells], obj.Current_Cell_Pos, '*');
-                pause(.05); 
+                quiver(obj.Current_Cell_Pos.x, obj.Current_Cell_Pos.y, obj.Cell_Force, 0*obj.Cell_Force) 
+                pause(0.1);
             end
         end
         
         % Updates the position of an individual cell given its internal
         % force and forces it experience due to junction pressure. 
-        function obj = update_cell(obj, cell_ind)
-            right_junction_force= obj.right_junction_force(cell_ind);
-            left_junction_force = obj.left_junction_force(cell_ind);
+        function obj = update_cell(obj, x,y)
+            obj.update_cell_x(x, y);
+            obj.update_cell_y(x,y);
+        end 
+        
+        function obj = update_cell_x(obj,x,y)
+            right_junction_force= obj.east_junction_force(x,y);
+            left_junction_force = obj.west_junction_force(x,y);
             
-            Net_force = obj.internal_cell_force(cell_ind)+ right_junction_force- left_junction_force;
+            Net_force = obj.internal_x_cell_force(x,y)+ right_junction_force- left_junction_force;
             dx = obj.timesteps * Net_force;
-            obj.Current_Cell_Pos(cell_ind) = obj.Current_Cell_Pos(cell_ind) +dx;
+            obj.Current_Cell_Pos.x(y,x) =obj.Current_Cell_Pos.x(y,x) + dx;
         end
 
-        function force = internal_cell_force(obj, cell_ind)
-            force  = obj.Cell_Force(cell_ind);
+        function force = internal_x_cell_force(obj, x,y)
+            force  = obj.Cell_Force(y,x);
         end
 
         % Returns the force experienced by the right junction of a cell at
         % cell_ind in the position vector
-        function force = right_junction_force(obj, cell_ind)
-            if cell_ind ~= obj.no_of_cells;
-                cell_pos = obj.Previous_Cell_Pos(cell_ind);
-                other_pos = obj.Previous_Cell_Pos(cell_ind+1);
+        function force = east_junction_force(obj, x,y)
+            if x ~= obj.width;
+                cell_pos = obj.Previous_Cell_Pos.x(y,x);
+                other_pos = obj.Previous_Cell_Pos.x(y,x+1);
                 extension = (other_pos-cell_pos)-obj.rest_junction_ext;
                 force =  obj.Cell_Tension_Constant * extension;
             else
@@ -124,15 +130,54 @@ classdef Two_Dim_Base_System< handle
         
         % Returns the force experienced by the left junction of a cell at
         % cell_ind in the position vector
-        function force = left_junction_force(obj, cell_ind)
-            cell_pos = obj.Previous_Cell_Pos(cell_ind);
-            if cell_ind ==1
+        function force = west_junction_force(obj, x,y)
+            cell_pos = obj.Previous_Cell_Pos.x(y,x);
+            if x ==1
                 other_pos = 0;
             else
-                other_pos = obj.Previous_Cell_Pos(cell_ind-1);
+                other_pos = obj.Previous_Cell_Pos.x(y,x-1);
             end
             extension = (cell_pos-other_pos)-obj.rest_junction_ext;
             force =  obj.Cell_Tension_Constant * extension;
+        end
+        
+        function obj = update_cell_y(obj,x,y)
+            north_junction_force= obj.north_junction_force(x,y);
+            south_junction_force = obj.south_junction_force(x,y);
+
+            Net_force = obj.internal_y_cell_force(x,y)+ north_junction_force- south_junction_force;
+            dy = obj.timesteps * Net_force;
+            obj.Current_Cell_Pos.y(y,x) =obj.Current_Cell_Pos.y(y,x) + dy;
+        end
+        
+        function force = internal_y_cell_force(obj, x,y)
+            force = 0; 
+        end
+        
+         % Returns the force experienced by the right junction of a cell at
+        % cell_ind in the position vector
+        function force = north_junction_force(obj, x,y)
+            if y ~= 1;
+                cell_pos = obj.Previous_Cell_Pos.y(y,x);
+                other_pos = obj.Previous_Cell_Pos.y(y-1,x);
+                extension = (other_pos-cell_pos)-obj.rest_junction_ext;
+                force =  obj.Cell_Tension_Constant * extension;
+            else
+                force = 0;
+            end
+        end
+        
+        % Returns the force experienced by the left junction of a cell at
+        % cell_ind in the position vector
+        function force = south_junction_force(obj, x,y)
+            if y~= obj.height
+                cell_pos = obj.Previous_Cell_Pos.y(y,x);
+                other_pos = obj.Previous_Cell_Pos.y(y+1,x);
+                extension = (cell_pos-other_pos)-obj.rest_junction_ext;
+                force =  obj.Cell_Tension_Constant * extension;
+            else
+                force = 0; 
+            end
         end
         
         %  Resets all the position data to initial
@@ -159,15 +204,6 @@ classdef Two_Dim_Base_System< handle
             obj.Cell_Force  = obj.set_internal_cell_force();
         end
         
-        
-        %  Change the number of the cells to be run in the simulation.
-        %  Requires that obj.run_simulation() has not been run since
-        %  instantiating or running obj.reset_system()
-        function change_cell_number(obj, cell_number)
-            obj.no_of_cells = cell_number;
-            obj.reset_system();
-        end
-        
         %  Alter the Timesteps of the system. Requires that 
         %  obj.run_simulation() has not been run since instantiating or 
         %  running obj.reset_system()
@@ -175,14 +211,12 @@ classdef Two_Dim_Base_System< handle
             obj.timesteps = timesteps;
         end
         
-        
         %  Change the duration of the simulation. Requires that 
         %  obj.run_simulation() has not been run since instantiating or 
         %  running obj.reset_system()
         function change_duration(obj, duration)
             obj.duration = duration;
         end 
-        
         
         %  Change whether system will display run-time graphs. A logical
         %  one will enable the graphs, and a 0 will disable them. 
@@ -195,18 +229,9 @@ classdef Two_Dim_Base_System< handle
         %  specified. These cells are counted from right to left. i.e. the
         %  closest no_of_cells cells to and including the fartherest right
         %  cell
-        function model_data = get_simulation_data(obj, no_of_cells)
-            end_ind = obj.no_of_cells ;
-            if nargin == 0 
-                start_ind = 1;
-            else
-                % If a cell no is specified, select from right to left
-                start_ind = (end_ind +1 )-no_of_cells;
-            end 
-            % Index all rows from fartherest right cell data to the
-            % specifie
-            model_data = obj.position_time_data([start_ind:end_ind],:); 
-        end 
+        function model_data = get_simulation_data(obj)
+            model_data= obj.height;
+        end
         
     end   
 end
