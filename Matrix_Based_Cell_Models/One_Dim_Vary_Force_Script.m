@@ -10,7 +10,7 @@ hold on
 DEFAULT_DURATION = 50;
 DEFAULT_TIMESTEPS = 0.05;
 DEFAULT_CELL_NO = 10;
-DEFAULT_CELL_DISPLAY_NO = 4;
+DEFAULT_CELL_DISPLAY_NO = 6;
 
 
 
@@ -18,7 +18,7 @@ DEFAULT_CELL_DISPLAY_NO = 4;
 %     - Standard parameters for Tension constants, Cell Forces, Junction
 %       extensions
 
-Std_Model = One_Dim_Vary_Force_Cell_Array_System(DEFAULT_CELL_NO, DEFAULT_DURATION, DEFAULT_TIMESTEPS);
+Std_Model = One_Dim_Vary_Force_System(DEFAULT_CELL_NO, DEFAULT_DURATION, DEFAULT_TIMESTEPS);
 Std_Model.change_graph_mode(0);
 Std_Model.run_simulation(); 
 Std_Model_Data = Std_Model.get_simulation_data(DEFAULT_CELL_DISPLAY_NO);
@@ -31,7 +31,7 @@ title('Standard System')
 %  For this Model: 
 %     - An increase in maximum angle deviation per timestep
 
-High_Force_Model= One_Dim_Vary_Force_Cell_Array_System(DEFAULT_CELL_NO, DEFAULT_DURATION, DEFAULT_TIMESTEPS);
+High_Force_Model= One_Dim_Vary_Force_System(DEFAULT_CELL_NO, DEFAULT_DURATION, DEFAULT_TIMESTEPS);
 High_Force_Model.change_graph_mode(0);
 
 %  Double the angle change variation
@@ -49,7 +49,7 @@ title('Increased Cell Direction Deviation')
 %  For this Model: 
 %     - Align the starting Cell Dirn vectors to the right
 
-High_Cell_Junction_Model = One_Dim_Vary_Force_Cell_Array_System(DEFAULT_CELL_NO, DEFAULT_DURATION, DEFAULT_TIMESTEPS);
+High_Cell_Junction_Model = One_Dim_Vary_Force_System(DEFAULT_CELL_NO, DEFAULT_DURATION, DEFAULT_TIMESTEPS);
 High_Cell_Junction_Model.change_graph_mode(0);
 
 High_Cell_Junction_Model.dirn_vector = zeros(10,1);
@@ -71,7 +71,7 @@ title('Align Initial Cell Directions')
 %     - Will show effect of the Cell Array being in a tensile state and
 %       compressive forces should be initially present. 
 
-Compressed_Model = One_Dim_Vary_Force_Cell_Array_System(DEFAULT_CELL_NO, DEFAULT_DURATION, DEFAULT_TIMESTEPS);
+Compressed_Model = One_Dim_Vary_Force_System(DEFAULT_CELL_NO, DEFAULT_DURATION, DEFAULT_TIMESTEPS);
 Compressed_Model.change_graph_mode(0);
 Compressed_Model.change_internal_cell_force(16);
 Compressed_Model.run_simulation(); 

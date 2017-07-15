@@ -1,7 +1,7 @@
 classdef One_Dim_Position_Feedback_System < One_Dim_Vary_Force_System
     %UNTITLED2 Summary of this class goes here
     %   Detailed explanation goes here
-    
+
     properties(Access = 'public')
         Feedback_Constant = 8
     end

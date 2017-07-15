@@ -2,7 +2,8 @@ classdef One_Dim_Vary_Force_System < One_Dim_Base_System
 
     properties(Access = 'public')
         dirn_vector
-        delta_dir_magnitude = 3.5;
+        delta_dir_magnitude = 6;
+        dirn_time_data
     end
     
     methods
@@ -15,7 +16,12 @@ classdef One_Dim_Vary_Force_System < One_Dim_Base_System
                 obj.timesteps = time_steps;                                
                 obj.no_of_cells = no_of_cells;
                 obj.array_set_up();
+                obj.angle_data_setup()
             end 
+        end
+        
+        function angle_data_setup(obj)
+            obj.dirn_time_data = obj.dirn_vector
         end
         
         %  Set all cells to have internal cell forces equal magnitude to the
@@ -36,6 +42,7 @@ classdef One_Dim_Vary_Force_System < One_Dim_Base_System
         function finish_iteration (obj)
             obj.Previous_Cell_Pos = obj.Current_Cell_Pos;
             obj.alter_dirn_vector()
+            obj.dirn_time_data = horzcat(obj.dirn_time_data, obj.dirn_vector);
         end
         
         %  Create a random vector direction where the vectors are a
@@ -65,12 +72,12 @@ classdef One_Dim_Vary_Force_System < One_Dim_Base_System
                 Fx = obj.Cell_Force.*cos(obj.dirn_vector);
                 Fy = obj.Cell_Force.*sin(obj.dirn_vector);
                 subplot(1,2,1)
-                a = quiver(obj.Current_Cell_Pos, ones(obj.no_of_cells,1), Fx, Fy);
+                quiver(obj.Current_Cell_Pos, ones(obj.no_of_cells,1), Fx, Fy);
 
                 subplot(1,2,2)
                 plot(obj.position_time_data');
 
-                pause(.05); 
+                pause(obj.timesteps/100); 
             end 
         end
         
