@@ -261,6 +261,14 @@ classdef One_Dim_Base_System < handle
             % specifie
             density = 1./diff(obj.position_time_data);
             density_data = density([start_ind:end_ind],:);
-        end 
+        end
+        
+        function plot_persistence_data(obj)
+            plot(obj.get_persistence_data().');
+        end
+        
+        function plot_density_data(obj, no_of_cells)
+            plot(obj.get_density_data(no_of_cells).');
+        end
     end
 end

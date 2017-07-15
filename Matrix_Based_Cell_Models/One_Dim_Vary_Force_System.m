@@ -16,12 +16,12 @@ classdef One_Dim_Vary_Force_System < One_Dim_Base_System
                 obj.timesteps = time_steps;                                
                 obj.no_of_cells = no_of_cells;
                 obj.array_set_up();
-                obj.angle_data_setup()
+                obj.angle_data_setup();
             end 
         end
         
         function angle_data_setup(obj)
-            obj.dirn_time_data = obj.dirn_vector
+            obj.dirn_time_data = obj.dirn_vector;
         end
         
         %  Set all cells to have internal cell forces equal magnitude to the
@@ -41,7 +41,7 @@ classdef One_Dim_Vary_Force_System < One_Dim_Base_System
         %  update the direction vectors of all cells.   
         function finish_iteration (obj)
             obj.Previous_Cell_Pos = obj.Current_Cell_Pos;
-            obj.alter_dirn_vector()
+            obj.alter_dirn_vector();
             obj.dirn_time_data = horzcat(obj.dirn_time_data, obj.dirn_vector);
         end
         
@@ -85,6 +85,33 @@ classdef One_Dim_Vary_Force_System < One_Dim_Base_System
         function reset_direction_vector(obj)
             obj.dirn_vector = obj.set_up_dirn_vector();
         end
+
+       function dirn_data = get_dirn_data(obj, no_of_cells)
+         end_ind = obj.no_of_cells -1 ;
+        if nargin == 0 
+            start_ind = 1;
+        else
+            if no_of_cells == 1
+                start_ind= end_ind;
+            else
+                % If a cell no is specified, select from right to left
+                start_ind = (end_ind +1 )-no_of_cells;
+            end
+        end 
+            % Index all rows from fartherest right cell data to the
+            % specifie
+            dirn_data = obj.dirn_time_data([start_ind:end_ind],:);
+       end
+        
+       function plot_dirn_histogram(obj, no_of_cells, bins)
+            data = obj.get_dirn_data(no_of_cells);
+            vector = data(:).';
+            rose(vector, bins);
+       end
+       
+       function plot_dirn_plot(obj, no_of_cells)
+            plot(obj.get_dirn_data(no_of_cells).');
+       end
     end
 end
 
