@@ -264,11 +264,18 @@ classdef One_Dim_Base_System < handle
         end
         
         function plot_persistence_data(obj)
-            plot(obj.get_persistence_data().');
+            plot([obj.timesteps: obj.timesteps: obj.duration-obj.timesteps], obj.get_persistence_data().');
+            title('Cell Migration Persistence')
+            xlabel('Time')
+            ylabel('Persistence')
+            
         end
         
         function plot_density_data(obj, no_of_cells)
-            plot(obj.get_density_data(no_of_cells).');
+            plot([obj.timesteps: obj.timesteps: obj.duration], obj.get_density_data(no_of_cells).');
+            title('Cell Density vs. Time')
+            xlabel('Time')
+            ylabel('Cell Density')
         end
     end
 end

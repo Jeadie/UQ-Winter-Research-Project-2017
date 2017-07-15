@@ -107,10 +107,15 @@ classdef One_Dim_Vary_Force_System < One_Dim_Base_System
             data = obj.get_dirn_data(no_of_cells);
             vector = data(:).';
             rose(vector, bins);
+            title('Cell Direction')
        end
        
        function plot_dirn_plot(obj, no_of_cells)
-            plot(obj.get_dirn_data(no_of_cells).');
+            plot([0:obj.timesteps: obj.duration], obj.get_dirn_data(no_of_cells).');
+            title('Cell Direction vs. Time')
+            ylabel('Direction (rads)')
+            xlabel('Time')
+            axis([0, obj.duration, min(min(obj.dirn_time_data)), max(max(obj.dirn_time_data))])
        end
     end
 end
