@@ -2,7 +2,7 @@ classdef One_Dim_Vary_Force_System < One_Dim_Base_System
 
     properties(Access = 'public')
         dirn_vector
-        delta_dir_magnitude = 6;
+        delta_dir_magnitude = 10;
         dirn_time_data
     end
     
@@ -22,6 +22,12 @@ classdef One_Dim_Vary_Force_System < One_Dim_Base_System
         
         function angle_data_setup(obj)
             obj.dirn_time_data = obj.dirn_vector;
+        end
+        
+        function reset_system(obj)
+            obj.array_set_up();
+            obj.position_time_data = [];
+            obj.dirn_time_data = [];
         end
         
         %  Set all cells to have internal cell forces equal magnitude to the

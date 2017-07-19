@@ -45,9 +45,9 @@ classdef One_Dim_Base_System < handle
         duration
         position_time_data
         graphs_enabled = 1
-        default_tension_constant =1;
+        default_tension_constant =2;
         default_rest_ext = 10; 
-        default_free_end_force =10;
+        default_free_end_force =8;
         distance_sum_data
     end
     
@@ -240,13 +240,13 @@ classdef One_Dim_Base_System < handle
         end 
         
         function persistence = get_persistence_data(obj)
-            cum_distance = sum(cumsum(abs(diff(obj.position_time_data,1,2)), 2))
-            displacement = (obj.position_time_data(obj.no_of_cells, [2:obj.duration/obj.timesteps])-obj.position_time_data(obj.no_of_cells, 1))
+            cum_distance = sum(cumsum(abs(diff(obj.position_time_data,1,2)), 2));
+            displacement = (obj.position_time_data(obj.no_of_cells, [2:obj.duration/obj.timesteps])-obj.position_time_data(obj.no_of_cells, 1));
             persistence = displacement./cum_distance;
         end
         
         function density_data = get_density_data(obj, no_of_cells)
-             end_ind = obj.no_of_cells -1
+             end_ind = obj.no_of_cells -1;
             if nargin == 0 
                 start_ind = 1;
             else

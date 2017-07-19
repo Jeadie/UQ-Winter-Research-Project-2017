@@ -3,7 +3,7 @@ classdef One_Dim_Position_Feedback_System < One_Dim_Vary_Force_System
     %   Detailed explanation goes here
 
     properties(Access = 'public')
-        Feedback_Constant = 8
+        Feedback_Constant = 4
     end
     
     methods
