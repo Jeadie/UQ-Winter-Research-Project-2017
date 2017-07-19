@@ -75,8 +75,10 @@ classdef One_Dim_Vary_Force_System < One_Dim_Base_System
                 quiver(obj.Current_Cell_Pos, ones(obj.no_of_cells,1), Fx, Fy);
 
                 subplot(1,2,2)
-                plot(obj.position_time_data');
-
+                plot( obj.position_time_data');
+                title('Position vs time')
+                ylabel('Position')
+                xlabel('Time')
                 pause(obj.timesteps/100); 
             end 
         end
@@ -87,7 +89,7 @@ classdef One_Dim_Vary_Force_System < One_Dim_Base_System
         end
 
        function dirn_data = get_dirn_data(obj, no_of_cells)
-         end_ind = obj.no_of_cells -1 ;
+         end_ind = obj.no_of_cells ;
         if nargin == 0 
             start_ind = 1;
         else
@@ -111,7 +113,7 @@ classdef One_Dim_Vary_Force_System < One_Dim_Base_System
        end
        
        function plot_dirn_plot(obj, no_of_cells)
-            plot([0:obj.timesteps: obj.duration], obj.get_dirn_data(no_of_cells).');
+            plot([obj.timesteps:obj.timesteps: obj.duration], obj.get_dirn_data(no_of_cells).');
             title('Cell Direction vs. Time')
             ylabel('Direction (rads)')
             xlabel('Time')

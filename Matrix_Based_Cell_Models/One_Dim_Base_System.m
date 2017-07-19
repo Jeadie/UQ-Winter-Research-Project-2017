@@ -240,21 +240,21 @@ classdef One_Dim_Base_System < handle
         end 
         
         function persistence = get_persistence_data(obj)
-            cum_distance = sum(cumsum(abs(diff(obj.position_time_data,1,2)), 2));
-            displacement = (obj.position_time_data(obj.no_of_cells, [2:obj.duration/obj.timesteps])-obj.position_time_data(obj.no_of_cells, 1));
+            cum_distance = sum(cumsum(abs(diff(obj.position_time_data,1,2)), 2))
+            displacement = (obj.position_time_data(obj.no_of_cells, [2:obj.duration/obj.timesteps])-obj.position_time_data(obj.no_of_cells, 1))
             persistence = displacement./cum_distance;
         end
         
         function density_data = get_density_data(obj, no_of_cells)
-             end_ind = obj.no_of_cells -1 ;
+             end_ind = obj.no_of_cells -1
             if nargin == 0 
                 start_ind = 1;
             else
-                if no_of_cells == 1
-                    start_ind= end_ind;
+                if no_of_cells == obj.no_of_cells
+                    start_ind= 1;
                 else
                     % If a cell no is specified, select from right to left
-                    start_ind = (end_ind +1 )-no_of_cells;
+                    start_ind = min((obj.no_of_cells +1 )-no_of_cells, end_ind);
                 end
             end 
             % Index all rows from fartherest right cell data to the
