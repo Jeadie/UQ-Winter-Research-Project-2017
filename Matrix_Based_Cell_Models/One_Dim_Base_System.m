@@ -62,7 +62,6 @@ classdef One_Dim_Base_System < handle
                 obj.no_of_cells = no_of_cells;
             end 
             obj.default_set_up();
-
             obj.array_set_up();
 
         end  
@@ -264,7 +263,7 @@ classdef One_Dim_Base_System < handle
             end 
             % Index all rows from fartherest right cell data to the
             % specifie
-            density = 1./diff(obj.position_time_data);
+            density = abs(1./diff(obj.position_time_data));
             density_data = density([start_ind:end_ind],:);
         end
         
