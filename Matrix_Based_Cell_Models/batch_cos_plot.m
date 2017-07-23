@@ -1,4 +1,4 @@
-function batch_cos_plot( obj, iterations )
+function batch_cos_plot( obj, iterations, no_of_cells )
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
     angle_data = [];
@@ -8,7 +8,7 @@ function batch_cos_plot( obj, iterations )
         if numel(angle_data) ==0
             angle_data = obj.dirn_time_data;
         else
-            angle_data = vertcat(angle_data, obj.dirn_time_data);
+            angle_data = vertcat(angle_data, obj.get_dirn_data(no_of_cells));
         end
         obj.reset_system();
     end

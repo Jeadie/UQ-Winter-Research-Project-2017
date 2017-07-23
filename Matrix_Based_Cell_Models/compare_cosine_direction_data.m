@@ -1,4 +1,4 @@
-function compare_cosine_direction_data(  test_obj, default_tension_constant_array, iterations)
+function compare_cosine_direction_data(  test_obj, default_tension_constant_array, iterations, no_of_cells)
 
     objs = create_test_objs(test_obj, default_tension_constant_array);
 
@@ -6,7 +6,7 @@ function compare_cosine_direction_data(  test_obj, default_tension_constant_arra
 
     for i = 1:plots
         subplot(plots, 1, i)
-        batch_cos_plot(objs(i), iterations)
+        batch_cos_plot(objs(i), iterations, no_of_cells)
     end 
     
 end
