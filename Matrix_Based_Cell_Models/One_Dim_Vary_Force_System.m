@@ -33,7 +33,7 @@ classdef One_Dim_Vary_Force_System < One_Dim_Base_System
         function reset_system(obj)
             obj.array_set_up();
             obj.position_time_data = [];
-            obj.dirn_time_data = [];
+            obj.reset_direction_vector();
         end
         
         %  Set all cells to have internal cell forces equal magnitude to the
@@ -98,6 +98,7 @@ classdef One_Dim_Vary_Force_System < One_Dim_Base_System
         %  Reset the direction vector to uniformly random. 
         function reset_direction_vector(obj)
             obj.dirn_vector = obj.set_up_dirn_vector();
+            obj.dirn_time_data= obj.dirn_vector;
         end
 
        function dirn_data = get_dirn_data(obj, no_of_cells)

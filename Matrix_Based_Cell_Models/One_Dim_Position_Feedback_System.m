@@ -3,7 +3,7 @@ classdef One_Dim_Position_Feedback_System < One_Dim_Vary_Force_System
     %   Detailed explanation goes here
 
     properties(Access = 'public')
-        Feedback_Constant = 4
+        Feedback_Constant = 6
     end
     
     methods
@@ -17,6 +17,8 @@ classdef One_Dim_Position_Feedback_System < One_Dim_Vary_Force_System
                 obj.no_of_cells = no_of_cells;
                 obj.array_set_up();
                 obj.default_set_up();
+                obj.angle_data_setup();
+
             end 
         end
         

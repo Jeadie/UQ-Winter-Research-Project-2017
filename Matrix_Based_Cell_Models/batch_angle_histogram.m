@@ -12,7 +12,7 @@ for i = 1:iterations
     obj.run_simulation();
     angle_data = vertcat(angle_data, obj.dirn_time_data);
     obj.reset_system();
-    obj.dirn_time_data = [];
+    %obj.dirn_time_data = [];
 end
 
 iterations = obj.duration/obj.timesteps;
