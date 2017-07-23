@@ -62,7 +62,6 @@ classdef One_Dim_Base_System < handle
                 obj.no_of_cells = no_of_cells;
             end 
             obj.default_set_up();
-
             obj.array_set_up();
 
         end  

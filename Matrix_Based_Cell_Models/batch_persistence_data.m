@@ -13,6 +13,8 @@ function return_data = batch_persistence_data( obj, iterations )
         obj.reset_system();
     end
     plot([obj.timesteps: obj.timesteps: obj.duration-obj.timesteps],persistence_data.');
+    title(strcat('Persistence Data for cell tension constant=', num2str(obj.Cell_Tension_Constant)))
+
     return_data = persistence_data;
 end
 

@@ -16,6 +16,7 @@ classdef One_Dim_Vary_Force_System < One_Dim_Base_System
                 obj.timesteps = time_steps;                                
                 obj.no_of_cells = no_of_cells;
                 obj.array_set_up();
+                obj.default_set_up();
                 obj.angle_data_setup();
             end 
         end
@@ -23,6 +24,11 @@ classdef One_Dim_Vary_Force_System < One_Dim_Base_System
         function angle_data_setup(obj)
             obj.dirn_time_data = obj.dirn_vector;
         end
+        
+        function default_set_up(obj)
+            obj.rest_junction_ext = obj.default_rest_ext;                            
+            obj.Cell_Tension_Constant = obj.default_tension_constant;
+        end 
         
         function reset_system(obj)
             obj.array_set_up();

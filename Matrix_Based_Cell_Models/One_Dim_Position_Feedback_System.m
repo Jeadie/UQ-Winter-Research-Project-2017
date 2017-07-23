@@ -16,6 +16,7 @@ classdef One_Dim_Position_Feedback_System < One_Dim_Vary_Force_System
                 obj.timesteps = time_steps;                                
                 obj.no_of_cells = no_of_cells;
                 obj.array_set_up();
+                obj.default_set_up();
             end 
         end
         
