@@ -1,4 +1,4 @@
-function compare_persistence_data(obj, default_tension_constant_array, iterations)
+function compare_persistence_data(test_obj, default_tension_constant_array, iterations)
 %{
     Persistence Comparison Script
 
@@ -8,10 +8,13 @@ function compare_persistence_data(obj, default_tension_constant_array, iteration
     Obj must be of object type One_Dim_Base_System or a subclass
 %}
 
-test_obj = create_test_objs(obj, default_tension_constant_array); 
-plots = numel(default_tension_constant_array)
+objs = create_test_objs(test_obj, default_tension_constant_array)
+a= objs(1)
+b= objs(2)
+c= objs(3)
+plots = numel(default_tension_constant_array);
 for i = 1:plots
     subplot(plots, 1, i)
-    batch_persistence_data(test_obj(i), iterations)
+    batch_persistence_data(objs(i), iterations)
 end 
 

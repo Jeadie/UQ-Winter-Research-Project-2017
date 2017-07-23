@@ -11,7 +11,6 @@ function return_data = batch_persistence_data( obj, iterations )
         obj.run_simulation();
         persistence_data = vertcat(persistence_data, obj.get_persistence_data());
         obj.reset_system();
-        obj.dirn_time_data = [];
     end
     plot([obj.timesteps: obj.timesteps: obj.duration-obj.timesteps],persistence_data.');
     return_data = persistence_data;
