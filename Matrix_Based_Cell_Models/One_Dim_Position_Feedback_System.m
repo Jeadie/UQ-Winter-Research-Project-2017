@@ -45,9 +45,7 @@ classdef One_Dim_Position_Feedback_System < One_Dim_Vary_Force_System
                 right_pos = obj.Previous_Cell_Pos(ind+1);
                 cur_angle = obj.dirn_vector(ind);
                 feedback_factor = ((cell_pos-left_pos) -(right_pos-cell_pos));
-                if cur_angle < pi
-                    feedback_factor = -1* feedback_factor;
-                end
+            
                 angle = feedback_factor* sin(obj.dirn_vector(ind)) * obj.timesteps;
         end 
     end
