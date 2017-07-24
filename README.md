@@ -67,19 +67,19 @@ Change whether the runtime graphics will display during simulation
 `function change_graph_mode(One_Dim_Base_System obj, Int mode)`
 
 Changes the amount of noise in the angular/directional data. Default is 10. 
-`function change_noise(One_Dim_Vary_Force_System obj, noise)`
+`function change_noise(One_Dim_Vary_Force_System obj, Double noise)`
 
 Returns the simulation position time data. In the form of a matrix of size [cell_number , duration/timesteps] 
-`function model_data = get_simulation_data(One_Dim_Base_System obj, int no_of_cells)`
+`function model_data = get_simulation_data(One_Dim_Base_System obj, Int no_of_cells)`
 
 Return the persistence data from the simulation. In the form of [1, duration/timesteps] size matrix
 `function persistence = get_persistence_data(One_Dim_Base_System obj)`
 
 Return the density of the cells against time. In the form of a matrix of size [cell_number-1 , duration/timesteps] 
-`function density_data = get_density_data(One_Dim_Base_System obj, no_of_cells)`
+`function density_data = get_density_data(One_Dim_Base_System obj, Int no_of_cells)`
 
 Returns the direction/angle data for the fartherest right number of cells. In the form of a matrix of size [no_of_cells-1 , duration/timesteps]
-`function dirn_data = get_dirn_data(obj, no_of_cells)`
+`function dirn_data = get_dirn_data(One_Dim_Vary_Force_System obj, Int no_of_cells)`
 
 Plots the persistence data of the obj
 `function plot_persistence_data(One_Dim_Base_System obj)`
