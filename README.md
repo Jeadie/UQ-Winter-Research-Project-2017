@@ -27,7 +27,7 @@ The src directory has the following subdirectories: Batch_Metrics, Metric_Compar
   % Reset the simulation and run simulation with different cell junction constant without noise.
   model.reset_system()
   model.change_tension_constant(0.2)
-  model.change_direction_noise(0)
+  model.change_noise(0)
   model.run_simulation() 
 ```
 
