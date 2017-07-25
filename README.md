@@ -14,6 +14,8 @@ The src directory has the following subdirectories: Batch_Metrics, Metric_Compar
 **Unused_Scripts**: A variety of scripts used in the development of the final model and metrics. 
 
 ## Tutorial
+After Downloading, run `setup.m` script in the outermost directory.  
+
 Some Basic simulation usages: 
 ```matlab
   % Create a Feedback Model with 10 cells, with a time of 15 and 0.1 increments
@@ -30,17 +32,25 @@ Some Basic simulation usages:
   model.run_simulation() 
 ```
 
+The runtime display: 
+![alt text](https://github.com/Jeadie/UQ-Winter-Research-Project-2017/master/Readme_Photos/runtime_example.jpg "Runtime Display")
+
 Running Metrics: 
 ```matlab
   % Get Persistence data for simulation 
   model = One_Dim_Position_Feedback_System(10, 15, 0.1)
   batch_persistence_data(model, 40 )
-
-  % Compare Persistence Data for tensions constants 1,2,3 run over 40 iterations. 
-  model.reset_system()
-  compare_persistence_data(model, [1,2,3], 40)
-  
 ```
+![alt text](https://github.com/Jeadie/UQ-Winter-Research-Project-2017/master/Readme_Photos/persistence_batch.jpg "Batch Result")
+
+```matlab
+  % Compare cosine direction Data for tensions constants 1,2,3 run over 40 iterations. 
+  model.reset_system()
+  compare_cosine_direction_data(model, [1,2,3], 40, 10)  
+```
+![alt text](https://github.com/Jeadie/UQ-Winter-Research-Project-2017/master/Readme_Photos/batch_example.jpg "Comparison Result")
+
+
 
 ## API Documentation
 Documentation for relevant models and metrics. Parameters will be by object type than name. i.e. test_obj is of type One_Dim_Base_System or its subclasses. 
