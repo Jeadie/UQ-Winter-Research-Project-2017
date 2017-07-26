@@ -14,7 +14,7 @@ The src directory has the following subdirectories: Batch_Metrics, Metric_Compar
 **Unused_Scripts**: A variety of scripts used in the development of the final model and metrics. 
 
 ## Tutorial
-After Downloading, run `setup.m` script in the outermost directory.  
+After downloading, run `setup.m` script in the outermost directory.  
 
 Some Basic simulation usages: 
 ```matlab
@@ -52,6 +52,7 @@ Running Metrics:
 ![alt text](https://github.com/Jeadie/UQ-Winter-Research-Project-2017/blob/master/Readme_Photos/cosine_compare.jpg "Comparison Result")
 
 ```
+  % Create 5 histograms for the model through 20 iterations and 20 angle bins. 
   model.reset_system()
   batch_angle_histogram(model, 20, [1,5], 20)
 ```
