@@ -33,7 +33,7 @@ Some Basic simulation usages:
 ```
 
 The runtime display: 
-![alt text](https://github.com/Jeadie/UQ-Winter-Research-Project-2017/master/Readme_Photos/runtime_example.jpg "Runtime Display")
+![alt text](https://github.com/Jeadie/UQ-Winter-Research-Project-2017/blob/master/Readme_Photos/runtime_example.jpg "Runtime Display")
 
 Running Metrics: 
 ```matlab
