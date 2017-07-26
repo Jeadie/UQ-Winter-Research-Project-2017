@@ -103,12 +103,35 @@ Plots the persistence data of the obj
 Plots the density data for the fartherest no_of_cells cells
 `function plot_density_data(One_Dim_Base_System obj, Int no_of_cells)`
 
-Plots an angular histogram of the directional/angular data of the fartherest number of cells. Angle data subdivided into bins number of subgroups.  
+Plots an angular histogram of the directional/angular data of the fartherest number of cells. Angle data subdivided into bins number of subgroups.
 `function plot_dirn_histogram(One_Dim_Vary_Force_System obj, Int no_of_cells, Int bins)`
 
 Plots the directional/angular data of the fartherest number of cells.
 `function plot_dirn_plot(One_Dim_Vary_Force_System obj, Int no_of_cells)`
 
+
 ### Batch Metrics
+Plots and returns the batch data of the obj's persistence data for a certain number of iterations.
+`function return_data = batch_persistence_data( One_Dim_Base_System obj, int iterations )`
+
+Plots and returns the density data of the obj's density data for a certain number of iterations for the fartherest no_of_cells cells. 
+`function return_data = batch_density_data( obj, iterations, no_of_cells )`
+
+Plots the cosine of the angle data for the fartherest no_of_cells cells for a number of iterations for the obj and returns the angle data
+`function angle_data = batch_cos_plot( obj, iterations, no_of_cells )`
+
+Plots and returns the angle data for a number of iterations of an obj, plotted in plot_dim number of samples for a number of bins. 
+`function angle_data = batch_angle_histogram( obj, iterations, plot_dim, bins)`
+
 
 ### Metric Comparison
+default_tension_constant_array is an array that the test_obj will iterate over to create test objs with the tensions constants of the array. 
+
+Compares the persistence data of the various test_objs over a set number of iterations
+`function compare_persistence_data(test_obj, default_tension_constant_array, iterations)`
+
+Compares the density of the fartherest no_of_cells cells, over a number of iterations and cell junction constants
+`function compare_density_data( test_obj, default_tension_constant_array, iterations, no_of_cells )`
+
+Compare the cosine of the direction angles of the fartherest no_of_cells cells for test_objs of varying cell junction constants over a number of iterations.
+`function compare_cosine_direction_data(  test_obj, default_tension_constant_array, iterations, no_of_cells)`
