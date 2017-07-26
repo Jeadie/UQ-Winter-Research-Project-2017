@@ -59,7 +59,7 @@ Running Metrics:
 ![alt text](https://github.com/Jeadie/UQ-Winter-Research-Project-2017/blob/master/Readme_Photos/angle_histogram.jpg "Angle Histogram")
 
 ## API Documentation
-Documentation for relevant models and metrics. Parameters will be by object type than name. i.e. test_obj is of type One_Dim_Base_System or its subclasses. 
+Documentation for relevant models and metrics. Parameters will be by object type than name. i.e. test_obj is of type One_Dim_Base_System or its subclasses and iterations takes in an integer. 
 
 ```
   function compare_persistence_data(One_Dim_Base_System test_obj, Array default_tension_constant_array, Int iterations)
