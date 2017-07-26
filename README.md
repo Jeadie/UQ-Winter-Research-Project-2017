@@ -41,16 +41,21 @@ Running Metrics:
   model = One_Dim_Position_Feedback_System(10, 15, 0.1)
   batch_persistence_data(model, 40 )
 ```
-![alt text](https://github.com/Jeadie/UQ-Winter-Research-Project-2017/master/Readme_Photos/persistence_batch.jpg "Batch Result")
+![alt text](https://github.com/Jeadie/UQ-Winter-Research-Project-2017/blob/master/Readme_Photos/persistence_batch.jpg "Batch Result")
 
 ```matlab
-  % Compare cosine direction Data for tensions constants 1,2,3 run over 40 iterations. 
-  model.reset_system()
-  compare_cosine_direction_data(model, [1,2,3], 40, 10)  
+  % Compare cosine direction Data for tensions constants 1,2,3 run over 20 iterations. 
+  model = One_Dim_Position_Feedback_System(10, 20, 0.05)
+  model.change_noise(0)
+  compare_cosine_direction_data(model, [1,2,3], 20, 10)  
 ```
-![alt text](https://github.com/Jeadie/UQ-Winter-Research-Project-2017/master/Readme_Photos/batch_example.jpg "Comparison Result")
+![alt text](https://github.com/Jeadie/UQ-Winter-Research-Project-2017/blob/master/Readme_Photos/cosine_compare.jpg "Comparison Result")
 
-
+```
+  model.reset_system()
+  batch_angle_histogram(model, 20, [1,5], 20)
+```
+![alt text](https://github.com/Jeadie/UQ-Winter-Research-Project-2017/blob/master/Readme_Photos/angle_histogram.jpg "Angle Histogram")
 
 ## API Documentation
 Documentation for relevant models and metrics. Parameters will be by object type than name. i.e. test_obj is of type One_Dim_Base_System or its subclasses. 
