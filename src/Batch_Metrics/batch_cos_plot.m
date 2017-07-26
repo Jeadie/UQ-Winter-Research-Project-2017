@@ -12,7 +12,7 @@ function batch_cos_plot( obj, iterations, no_of_cells )
         end
         obj.reset_system();
     end
-    plot([0: obj.timesteps: obj.duration],sin(angle_data).');
+    plot([0: obj.timesteps: obj.duration],cos(angle_data).');
     title(strcat('Cos(theta) vs timefor cell tension constant=', num2str(obj.Cell_Tension_Constant)));
     xlabel('Time');
     ylabel('cos(theta)'); 
