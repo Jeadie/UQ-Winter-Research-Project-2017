@@ -1,5 +1,9 @@
 classdef One_Dim_Vary_Force_System < One_Dim_Base_System
-
+    %{
+        A superclass for the final model that descibes every cell with a
+        velocity of varying, random angle and 1D position x. Cells do not
+        have any feedback. 
+    %}
     properties(Access = 'public')
         dirn_vector
         delta_dir_magnitude = 10;

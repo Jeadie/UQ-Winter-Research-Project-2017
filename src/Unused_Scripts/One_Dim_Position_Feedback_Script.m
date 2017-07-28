@@ -2,10 +2,10 @@
     Script to Generate a 1x3 plot of 3 1D position-feedback models of
     different feedback constants and random variance
 %}
-DEFAULT_DURATION = 100;
-DEFAULT_TIMESTEPS = 0.1;
+DEFAULT_DURATION = 20;
+DEFAULT_TIMESTEPS = 0.01;
 DEFAULT_CELL_NO = 10;
-DEFAULT_CELL_DISPLAY_NO = 3;
+DEFAULT_CELL_DISPLAY_NO = 8;
 DEFAULT_FEEDBACK = 3;
 DEFAULT_NOISE = 10;
 YMAX = 400;

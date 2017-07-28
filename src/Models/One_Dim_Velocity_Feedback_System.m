@@ -1,7 +1,10 @@
 classdef One_Dim_Velocity_Feedback_System < One_Dim_Position_Feedback_System
-    %UNTITLED2 Summary of this class goes here
-    %   Detailed explanation goes here
-    
+    %{
+        A Model not used in the winter reseatch, a result of self
+        experimenting after finding an equilibrium position at angles pi/2
+        and 3pi/2. 
+    %}
+        
     properties(Access = 'public')
         radian_velocity = 2*pi % radians/ m/s
         

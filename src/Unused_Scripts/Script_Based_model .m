@@ -1,3 +1,8 @@
+%{ 
+    Script based Simulation for the mathematical model represented by
+    One_Dim_Base_System. 
+%}
+
 CELL_NUMBER = 5;
 CELL_TENSION_CONSTANT =  5; %tension constant in N/m^2
 INITIAL_CELL_EXTENSION = 10; % extension in m

@@ -11,6 +11,9 @@ function compare_persistence_data(test_obj, default_tension_constant_array, iter
     objs = create_test_objs(test_obj, default_tension_constant_array);
 
     plots = numel(default_tension_constant_array);
+    
+    % Iterate through all test_objs and batch persistence test them on
+    % different subplots. 
     for i = 1:plots
         subplot(plots, 1, i)
         batch_persistence_data(objs(i), iterations)
