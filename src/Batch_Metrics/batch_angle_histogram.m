@@ -1,4 +1,4 @@
-function batch_angle_histogram( obj, iterations, plot_dim, bins)
+function angle_data = batch_angle_histogram( obj, iterations, plot_dim, bins)
 %  Batch simulate a single object that is an One_Dim_Vary_Force_System
 %  object or a subclass. 
 

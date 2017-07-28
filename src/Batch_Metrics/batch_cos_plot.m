@@ -1,4 +1,4 @@
-function batch_cos_plot( obj, iterations, no_of_cells )
+function angle_data = batch_cos_plot( obj, iterations, no_of_cells )
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
     angle_data = [];
